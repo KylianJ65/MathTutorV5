@@ -30,27 +30,7 @@ they did on the test.
 #include <vector> // used so we can make our 2D Vector
 #include <iomanip> //for the setw
 using namespace std; // used to not put "std" in cin/cout
-int main() {
-    int leftNum = 0; // Generate random numbers between 1 and 10
-    int rightNum = 0; // Generate random numbers between 1 and 10
-    char symbol = '?'; // Gets characters
-    int tempNum = 0; // Used for the subtraction in the switch
-    int correctAnswer = 0; // Used for the correct answer
-    int totalCorrect = 0; // Used to calculate the total correct questions a user has gotten
-    int totalIncorrect = 0; // Used to calculate the total incorrect questions a user has gotten
-    int mathLevel = 1; // Used for the math level
-    int currentRange = 10; // Initial range of random numbers
-    int Attempts = 0; // Includes Initial Attempts
-    vector<vector<int> > questions; //stores every question the suer answers
-    const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
-    const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
-    enum MathType { MT_ADD = 1, MT_SUB = 2, MT_MUL = 3, MT_DIV = 4 }; // Shows different math types
-    MathType questionType;
-    int userAns = 0; // Gets the user answer
-    string userInput = "";
-    string userName = "?";
-    // Seed the random number generator
-    srand(time(0));
+void DisplayGameIntro() {
     // Displaying the Program Intro/Presentation.
     cout << " ______________________________________________________________ " <<
             endl;
@@ -86,8 +66,11 @@ int main() {
     cout << "\t * -40 Celcius is -40 Fahrenheit." << endl;
     cout << "\t * Zero is not represented in Roman numerals." << endl;
     cout << endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
+    cout << " ______________________________________________________________ " << endl;
+    return;
+
+}; //
+string GetUserName(string userName) {
     // Welcoming the User and asking for their Name.
     cout << endl;
     cout << "*\tPlease enter your name: ";
@@ -95,47 +78,94 @@ int main() {
     cout << endl;
     cout << "*\tWelcome " << userName << " to the Math Tutor!" << endl;
     cout << endl;
+}; //
+int GetNumericValue() {
+
+}; //
+string AskToPlayAgain(string userName); //
+void DisplaySummaryReport(const vector<vector<int>> &allQuestions); //
+vector<int> GenerateRandomQuestion(int mathLevel) {
+    enum MathType { MT_ADD = 1, MT_SUB = 2, MT_MUL = 3, MT_DIV = 4 }; // Shows different math types
+    MathType questionType;
+    int leftNum = 0; // Generate random numbers between 1 and 10
+    int rightNum = 0; // Generate random numbers between 1 and 10
+    char symbol = '?'; // Gets characters
+    int correctAnswer = 0; // Used for the correct answer
+    // This generates a random number between 1 through 10.
+    leftNum = (rand() % currentRange) + 1;
+    rightNum = (rand() % currentRange) + 1;
+    // Randomly choose a math operation.
+    questionType = static_cast<MathType>(rand() % 4 + 1);
+    // Switches the question type
+    switch (questionType) {
+        case MT_ADD: // used for addition
+            symbol = '+';
+        correctAnswer = leftNum + rightNum;
+        break;
+        case MT_SUB: // used for subtraction
+            symbol = '-';
+        if (leftNum < rightNum) {
+            tempNum = leftNum;
+            leftNum = rightNum;
+            rightNum = tempNum;
+        }
+        correctAnswer = leftNum - rightNum;
+        break;
+        case MT_MUL: // used for multiplication
+            symbol = '*';
+        correctAnswer = leftNum * rightNum;
+        break;
+        case MT_DIV: // used for division
+            symbol = '/';
+        correctAnswer = leftNum;
+        leftNum *= rightNum;
+        break;
+        // This shows that the code is broken, it displays a message.
+        default:
+            cout << "Error, Invalid Math Type " << "(mathType)" << "." << endl;
+        cout << "error -1" << endl;
+        cout << "Contact clayrasmussen425@gmail.com" << endl;
+        return -1;
+    }
+}; //
+bool GiveThreeAttempts(string userName, vector <int> &currentQuestion) {
+    int mathLevel = currentQuestion.at(0); //
+    int leftNum = currentQuestion.at(1); //
+    char symbol = static_cast<char>(currentQuestion.at(2)); //
+    int rightNum = currentQuestion.at(3); //
+    int correctAnswer = currentQuestion.at(4); //
+    int Attempts = currentQuestion.at(5); //
+
+}; //
+void CheckForLevelChange(int &totalCorrect, int &totalIncorrect, int &mathLevel); //
+int main() {
+
+
+    int tempNum = 0; // Used for the subtraction in the switch
+
+    int totalCorrect = 0; // Used to calculate the total correct questions a user has gotten
+    int totalIncorrect = 0; // Used to calculate the total incorrect questions a user has gotten
+
+    int currentRange = 10; // Initial range of random numbers
+    int Attempts = 0; // Includes Initial Attempts
+    vector<vector<int> > questions; //stores every question the suer answers
+    const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
+    const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
+    int userAns = 0; // Gets the user answer
+    string userInput = "";
+    string userName = "?";
+    // Seed the random number generator
+    srand(time(0));
+
+    DisplayGameIntro();
+
+
     // This shows the amount of attempts for the user.
     cout << "*\tYou have a maximum of " << MAX_ATTEMPTS << " attempts for each question. " << endl;
     cout << endl;
     do {
         // Loop-body
-        // This generates a random number between 1 through 10.
-        leftNum = (rand() % currentRange) + 1;
-        rightNum = (rand() % currentRange) + 1;
-        // Randomly choose a math operation.
-        questionType = static_cast<MathType>(rand() % 4 + 1);
-        // Switches the question type
-        switch (questionType) {
-            case MT_ADD: // used for addition
-                symbol = '+';
-                correctAnswer = leftNum + rightNum;
-                break;
-            case MT_SUB: // used for subtraction
-                symbol = '-';
-                if (leftNum < rightNum) {
-                    tempNum = leftNum;
-                    leftNum = rightNum;
-                    rightNum = tempNum;
-                }
-                correctAnswer = leftNum - rightNum;
-                break;
-            case MT_MUL: // used for multiplication
-                symbol = '*';
-                correctAnswer = leftNum * rightNum;
-                break;
-            case MT_DIV: // used for division
-                symbol = '/';
-                correctAnswer = leftNum;
-                leftNum *= rightNum;
-                break;
-            // This shows that the code is broken, it displays a message.
-            default:
-                cout << "Error, Invalid Math Type " << "(mathType)" << "." << endl;
-                cout << "error -1" << endl;
-                cout << "Contact clayrasmussen425@gmail.com" << endl;
-                return -1;
-        }
+
         // create a vector to store one question
         vector<int> row = {mathLevel, leftNum, symbol, rightNum, correctAnswer};
         // Shows what level the user is on
@@ -152,8 +182,7 @@ int main() {
             cout << endl;
             // Check if the answer is correct
             if (userAns == correctAnswer) {
-                cout << "*\t" << "Correct! It looks like you are a math genius. "
-                        << endl;
+                cout << "*\t" << "Correct! It looks like you are a math genius. " << endl;
                 totalCorrect++;
                 row.push_back(i); // adding the users attempt to the users attempt
                 break;
@@ -166,8 +195,7 @@ int main() {
                 // Shows how many attempts they have left
                 cout << "*\t" << "Incorrect. Next try you have it!" << endl;
                 totalIncorrect++;
-                cout << "*\tYou have " << (MAX_ATTEMPTS - i) << " attempts left."
-                        << endl;
+                cout << "*\tYou have " << (MAX_ATTEMPTS - i) << " attempts left." << endl;
                 cout << endl;
             }
         }
@@ -231,12 +259,7 @@ int main() {
     totalIncorrect = 0;
     // extracts values from vectors
     for (int i = 0; i < questions.size(); i++) {
-        mathLevel = questions.at(i).at(0);
-        leftNum = questions.at(i).at(1);
-        symbol = static_cast<char>(questions.at(i).at(2));
-        rightNum = questions.at(i).at(3);
-        correctAnswer = questions.at(i).at(4);
-        Attempts = questions.at(i).at(5);
+
         // displays question details mathlevel, leftNum, symbol, rightNum, =, correctAnswer, then attempts per question
         cout << setw(3) << right << mathLevel << " "
                 << setw(3) << right << leftNum

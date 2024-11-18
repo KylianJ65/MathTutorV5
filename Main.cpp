@@ -30,8 +30,6 @@ they did on the test.
 #include <vector> // used so we can make our 2D Vector
 #include <iomanip> //for the setw
 using namespace std; // used to not put "std" in cin/cout
-const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
-const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
 void DisplayGameIntro() {
     // Displaying the Program Intro/Presentation.
     cout << " ______________________________________________________________ " <<
@@ -82,75 +80,169 @@ string GetUserName(string userName) {
     cout << endl;
 }; //
 int GetNumericValue() {
-    int userAns =0;
-    while (!(cin >> userAns)) {
-        cin.clear();
-        cin.ignore(numeric_limits<streamsize>::max(), '\n'); //
-        cout << "\tInvalid input!" << endl;
-        cout << "\tPlease enter a number: ";
-    }
-    cout << endl;
-    return userAns;
+
 }; //
-string AskToPlayAgain(string userName) {
-    string userInput = "?";
-    getline(cin, userInput); // used to reset input buffer
-    while (true) {
-        cout << endl;
-        cout << "*\tDo you want to continue? (y=yes | n=no) ";
-        getline(cin, userInput); // Gets the user input for if they want to continue
-        cout << endl;
-        for (int i = 0; i < userInput.size(); i++) {
-            userInput.at(i) = tolower(userInput.at(i));
+string AskToPlayAgain(string userName); //
+void DisplaySummaryReport(const vector<vector<int>> &allQuestions); //
+vector<int> GenerateRandomQuestion(int mathLevel) {
+    enum MathType { MT_ADD = 1, MT_SUB = 2, MT_MUL = 3, MT_DIV = 4 }; // Shows different math types
+    MathType questionType;
+    int leftNum = 0; // Generate random numbers between 1 and 10
+    int rightNum = 0; // Generate random numbers between 1 and 10
+    char symbol = '?'; // Gets characters
+    int correctAnswer = 0; // Used for the correct answer
+    // This generates a random number between 1 through 10.
+    leftNum = (rand() % currentRange) + 1;
+    rightNum = (rand() % currentRange) + 1;
+    // Randomly choose a math operation.
+    questionType = static_cast<MathType>(rand() % 4 + 1);
+    // Switches the question type
+    switch (questionType) {
+        case MT_ADD: // used for addition
+            symbol = '+';
+        correctAnswer = leftNum + rightNum;
+        break;
+        case MT_SUB: // used for subtraction
+            symbol = '-';
+        if (leftNum < rightNum) {
+            tempNum = leftNum;
+            leftNum = rightNum;
+            rightNum = tempNum;
         }
-        if (userInput == "y" || userInput == "yes"
-            || userInput == "n" || userInput == "no") {
-            break;
+        correctAnswer = leftNum - rightNum;
+        break;
+        case MT_MUL: // used for multiplication
+            symbol = '*';
+        correctAnswer = leftNum * rightNum;
+        break;
+        case MT_DIV: // used for division
+            symbol = '/';
+        correctAnswer = leftNum;
+        leftNum *= rightNum;
+        break;
+        // This shows that the code is broken, it displays a message.
+        default:
+            cout << "Error, Invalid Math Type " << "(mathType)" << "." << endl;
+        cout << "error -1" << endl;
+        cout << "Contact clayrasmussen425@gmail.com" << endl;
+        return -1;
+    }
+}; //
+bool GiveThreeAttempts(string userName, vector <int> &currentQuestion) {
+    int mathLevel = currentQuestion.at(0); //
+    int leftNum = currentQuestion.at(1); //
+    char symbol = static_cast<char>(currentQuestion.at(2)); //
+    int rightNum = currentQuestion.at(3); //
+    int correctAnswer = currentQuestion.at(4); //
+    int Attempts = currentQuestion.at(5); //
+
+}; //
+void CheckForLevelChange(int &totalCorrect, int &totalIncorrect, int &mathLevel); //
+int main() {
+
+
+    int tempNum = 0; // Used for the subtraction in the switch
+
+    int totalCorrect = 0; // Used to calculate the total correct questions a user has gotten
+    int totalIncorrect = 0; // Used to calculate the total incorrect questions a user has gotten
+
+    int currentRange = 10; // Initial range of random numbers
+    int Attempts = 0; // Includes Initial Attempts
+    vector<vector<int> > questions; //stores every question the suer answers
+    const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
+    const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
+    int userAns = 0; // Gets the user answer
+    string userInput = "";
+    string userName = "?";
+    // Seed the random number generator
+    srand(time(0));
+
+    DisplayGameIntro();
+
+
+    // This shows the amount of attempts for the user.
+    cout << "*\tYou have a maximum of " << MAX_ATTEMPTS << " attempts for each question. " << endl;
+    cout << endl;
+    do {
+        // Loop-body
+
+        // create a vector to store one question
+        vector<int> row = {mathLevel, leftNum, symbol, rightNum, correctAnswer};
+        // Shows what level the user is on
+        for (int i = 1; i <= MAX_ATTEMPTS; i++) {
+            cout << "[Level #" << mathLevel << "] " << userName << ", what is "
+                    << leftNum << " " << symbol << " " << rightNum << " = ";
+            // Loop until the user enters valid data
+            while (!(cin >> userAns)) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); //
+                cout << "\tInvalid input!" << endl;
+                cout << "\tPlease enter a number: ";
+            }
+            cout << endl;
+            // Check if the answer is correct
+            if (userAns == correctAnswer) {
+                cout << "*\t" << "Correct! It looks like you are a math genius. " << endl;
+                totalCorrect++;
+                row.push_back(i); // adding the users attempt to the users attempt
+                break;
+            } else if (MAX_ATTEMPTS - i == 0) {
+                //
+                cout << "*\tSorry, you are out of attempts" << endl;
+                cout << "*\tThe correct answer was: " << correctAnswer << endl;
+                row.push_back(0); // Records zero to signify incorrect in the summary report
+            } else {
+                // Shows how many attempts they have left
+                cout << "*\t" << "Incorrect. Next try you have it!" << endl;
+                totalIncorrect++;
+                cout << "*\tYou have " << (MAX_ATTEMPTS - i) << " attempts left." << endl;
+                cout << endl;
+            }
+        }
+        questions.push_back(row); // after attempt adds the row to question vector
+        if (totalCorrect >= 3) {
+            mathLevel++; // Increases the math level
+            currentRange += LEVEL_RANGE_CHANGE; // Increase range to have harder questions
+            totalCorrect = 0;
+            totalIncorrect = 0;
+            cout << endl;
+            cout << "*\tGreat Job! You are leveling up to level: " << mathLevel <<
+                    endl;
+            //
+            cout << "*\tThe range of numbers will now be: 1-" << currentRange <<
+                    endl; //
+            cout << endl;
+        } else if (totalIncorrect >= 3 && mathLevel > 1) {
+            mathLevel--; //
+            currentRange -= LEVEL_RANGE_CHANGE; // Decrease range for easier questions
+            totalCorrect = 0;
+            totalIncorrect = 0;
+            cout << endl;
+            cout << "*\tWhat a disappointment - You are leveling down to level: " << mathLevel << endl;
+            cout << "*\tThe range of numbers will now be: 1-" << currentRange << endl;
+            cout << endl;
+        }
+        getline(cin, userInput); // used to reset input buffer
+        while (true) {
+            cout << endl;
+            cout << "*\tDo you want to continue? (y=yes | n=no) ";
+            getline(cin, userInput); // Gets the user input for if they want to continue
+            cout << endl;
+            for (int i = 0; i < userInput.size(); i++) {
+                userInput.at(i) = tolower(userInput.at(i));
+            }
+            if (userInput == "y" || userInput == "yes"
+                || userInput == "n" || userInput == "no") {
+                break;
             } else {
                 cout << "*\tInvalid input, please try again..." << endl;
                 cout << endl;
             }
-    }
-
-}; //
-void DisplaySummaryReport(const vector<vector<int>> &questions) {
-    string userName = "?";
-    int userAns = 0;
-    int totalAns = 0;
-    int totalQuestions = 0;
-    int totalCorrect =0;
-    int totalIncorrect =0;
-    char symbol = *"a";
-    int mathLevel = 0;
-    int leftNum = 0;
-    int rightNum = 0;
-    int correctAnswer = 0;
-    int Attempts = 0;
-    vector<int> row = {mathLevel, leftNum, symbol, rightNum, correctAnswer};
-    for (int i = 1; i <= MAX_ATTEMPTS; i++) {
-        cout << "[Level #" << mathLevel << "] " << userName << ", what is "
-                << leftNum << " " << symbol << " " << rightNum << " = ";
-        // Loop until the user enters valid data
-        // Check if the answer is correct
-        if (userAns == correctAnswer) {
-            cout << "*\t" << "Correct! It looks like you are a math genius. " << endl;
-            totalCorrect++;
-            row.push_back(i); // adding the users attempt to the users attempt
-            break;
-        } else if (MAX_ATTEMPTS - i == 0) {
-            //
-            cout << "*\tSorry, you are out of attempts" << endl;
-            cout << "*\tThe correct answer was: " << correctAnswer << endl;
-            row.push_back(0); // Records zero to signify incorrect in the summary report
-        } else {
-            // Shows how many attempts they have left
-            cout << "*\t" << "Incorrect. Next try you have it!" << endl;
-            totalIncorrect++;
-            cout << "*\tYou have " << (MAX_ATTEMPTS - i) << " attempts left." << endl;
-            cout << endl;
         }
-    }
-
+    } while (userInput == "yes" || userInput == "y"); // Loops the entire code/game ifuser says "yes again
+            cout
+    <<
+    endl;
     cout << "*\t" << "Thanks for playing this amazing game " << userName << "!" <<
             endl;
     cout << " ______________________________________________________________ " <<
@@ -202,140 +294,5 @@ void DisplaySummaryReport(const vector<vector<int>> &questions) {
             endl;
     cout << " ______________________________________________________________ " <<
             endl;
-}; //
-int GenerateRandomQuestion(int mathLevel) {
-    int leftNum =0;
-    int rightNum = 0;
-    int correctAnswer = 0;
-    int totalCorrect = 0;
-    int totalIncorrect = 0;
-    int currentRange = 0;
-    char symbol = 'a';
-    string userInput = "?";
-    enum MathType { MT_ADD = 1, MT_SUB = 2, MT_MUL = 3, MT_DIV = 4 }; // Shows different math types
-    MathType questionType;
-    int tempNum =0;
-    do {
-        // Loop-body
-        // This generates a random number between 1 through 10.
-        leftNum = (rand() % currentRange) + 1;
-        rightNum = (rand() % currentRange) + 1;
-
-
-        // Randomly choose a math operation.
-        questionType = static_cast<MathType>(rand() % 4 + 1);
-
-        // Switches the question type
-        switch (questionType) {
-            case MT_ADD: // used for addition
-                symbol = '+';
-                correctAnswer = leftNum + rightNum;
-                break;
-            case MT_SUB: // used for subtraction
-                symbol = '-';
-                if (leftNum < rightNum) {
-                    tempNum = leftNum;
-                    leftNum = rightNum;
-                    rightNum = tempNum;
-                }
-                correctAnswer = leftNum - rightNum;
-                break;
-            case MT_MUL: // used for multiplication
-                symbol = '*';
-                correctAnswer = leftNum * rightNum;
-                break;
-            case MT_DIV: // used for division
-                symbol = '/';
-                correctAnswer = leftNum;
-                leftNum *= rightNum;
-                break;
-            // This shows that the code is broken, it displays a message.
-            default:
-                cout << "Error, Invalid Math Type " << "(mathType)" << "." << endl;
-            cout << "error -1" << endl;
-            cout << "Contact clayrasmussen425@gmail.com" << endl;
-            return -1;
-        }
-        vector<int> row = {mathLevel, leftNum, symbol, rightNum, correctAnswer};
-    }while (userInput == "yes" || userInput == "y"); // Loops the entire code/game if user says "yes" again
-}; //
-bool GiveThreeAttempts(string userName, vector <int> row) {
-    int mathLevel = row.at(0); //
-    int leftNum = row.at(1); //
-    char symbol = static_cast<char>(row.at(2)); //
-    int rightNum = row.at(3); //
-    int correctAnswer = row.at(4); //
-    int Attempts = row.at(5); //
-    int userAns =0;
-    int totalCorrect =0;
-    int totalIncorrect =0;
-    vector<vector<int> >questions;  //stores every question the suer answers
-    //vector<int> row = {mathLevel, leftNum, symbol, rightNum, correctAnswer};
-    for (int i = 1; i <= MAX_ATTEMPTS; i++) {
-        cout << "[Level #" << mathLevel << "] " << userName << ", what is "
-                << leftNum << " " << symbol << " " << rightNum << " = ";
-        // Loop until the user enters valid data
-        // Check if the answer is correct
-        if (userAns == correctAnswer) {
-            cout << "*\t" << "Correct! It looks like you are a math genius. " << endl;
-            totalCorrect++;
-            row.push_back(i); // adding the users attempt to the users attempt
-            break;
-        } else if (MAX_ATTEMPTS - i == 0) {
-            //
-            cout << "*\tSorry, you are out of attempts" << endl;
-            cout << "*\tThe correct answer was: " << correctAnswer << endl;
-            row.push_back(0); // Records zero to signify incorrect in the summary report
-        } else {
-            // Shows how many attempts they have left
-            cout << "*\t" << "Incorrect. Next try you have it!" << endl;
-            totalIncorrect++;
-            cout << "*\tYou have " << (MAX_ATTEMPTS - i) << " attempts left." << endl;
-            cout << endl;
-        }
-    }
-    questions.push_back(row); // after attempt adds the row to question vector
-
-
-
-
-}; //
-void CheckForLevelChange(int &totalCorrect, int &totalIncorrect, int &mathLevel) {
-    int currentRange = 10;
-    if (totalCorrect >= 3) {
-        mathLevel++; // Increases the math level
-        currentRange += LEVEL_RANGE_CHANGE; // Increase range to have harder questions
-        totalCorrect = 0;
-        totalIncorrect = 0;
-        cout << endl;
-        cout << "*\tGreat Job! You are leveling up to level: " << mathLevel <<
-                endl;
-        //
-        cout << "*\tThe range of numbers will now be: 1-" << currentRange <<
-                endl; //
-        cout << endl;
-    } else if (totalIncorrect >= 3 && mathLevel > 1) {
-        mathLevel--; //
-        currentRange -= LEVEL_RANGE_CHANGE; // Decrease range for easier questions
-        totalCorrect = 0;
-        totalIncorrect = 0;
-        cout << endl;
-        cout << "*\tWhat a disappointment - You are leveling down to level: " << mathLevel << endl;
-        cout << "*\tThe range of numbers will now be: 1-" << currentRange << endl;
-        cout << endl;
-    }
-}; //
-int main() {
-    string userName = "admin";
-    int mathLevel = 0;
-
-    DisplayGameIntro();
-    GetUserName(userName);
-    for(int i =0; i < MAX_ATTEMPTS; i++) {
-        GenerateRandomQuestion(mathLevel);
-    }
-
-
-
     return 0;
 }

@@ -32,42 +32,31 @@ they did on the test.
 using namespace std; // used to not put "std" in cin/cout
 void DisplayGameIntro() {
     // Displaying the Program Intro/Presentation.
-    cout << " ______________________________________________________________ " <<
-            endl;
-    cout << " " <<
-            endl;
-    cout << " __ __ _ _ _______ _ " <<
-            endl;
-    cout << " | || | | | | | |__ __| | | " <<
-            endl;
-    cout << " | | __ _ | |_ | |__ | | _ _ | |_ ___ _ __ " <<
-            endl;
-    cout << " | |||| | / _` || __|| '_ | | || | | || __|/ _ | | '__| " <<
-            endl;
-    cout << " | | | || (_| || |_ | | | | | || |_| || |_| (_) || | " <<
-            endl;
-    cout << " |_| |_| |__,_| |__||_| |_| |_| |__,_| |__||___/ |_| " <<
-            endl;
-    cout << " " <<
-            endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
+    cout << " ______________________________________________________________ " << endl;
+    cout << "                                                                " << endl;
+    cout << "    __  __         _    _       _______      _                  " << endl;
+    cout << "   |  ||  |       | |  | |     |__   __|    | |                 " << endl;
+    cout << "   |      |  __ _ | |_ | |__      | | _   _ | |_  ___   _ __    " << endl;
+    cout << "   | |||| | / _` || __|| '_ |     | || | | || __|/ _ | | '__|   " << endl;
+    cout << "   | |  | || (_| || |_ | | | |    | || |_| || |_| (_) || |      " << endl;
+    cout << "   |_|  |_| |__,_| |__||_| |_|    |_| |__,_| |__||___/ |_|      " << endl;
+    cout << "                                                                " << endl;
+    cout << " ______________________________________________________________ " << endl;
     cout << endl;
-    cout << "| Welcome to the Craziest Math Tutor Game! |" <<
-            endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
+    cout << "|           Welcome to the Craziest Math Tutor Game!           |" << endl;
+    cout << " ______________________________________________________________ " << endl;
     cout << endl;
+
     // Displaying for the User Fun Facts about Math that are Interesting.
     cout << "-\tFun Math Facts! " << endl;
     cout << endl;
-    cout << "\t * The most used number in math is 3." << endl;
-    cout << "\t * Every odd number has an (e) in it." << endl;
-    cout << "\t * -40 Celcius is -40 Fahrenheit." << endl;
-    cout << "\t * Zero is not represented in Roman numerals." << endl;
+    cout << "\t    * The most used number in math is 3." << endl;
+    cout << "\t    * Every odd number has an (e) in it." << endl;
+    cout << "\t    * -40 Celcius is -40 Fahrenheit." << endl;
+    cout << "\t    * Zero is not represented in Roman numerals." << endl;
     cout << endl;
     cout << " ______________________________________________________________ " << endl;
-    return;
+
 
 }; //
 string GetUserName(string userName) {
@@ -240,21 +229,21 @@ int main() {
             }
         }
     } while (userInput == "yes" || userInput == "y"); // Loops the entire code/game ifuser says "yes again
-            cout
-    <<
-    endl;
-    cout << "*\t" << "Thanks for playing this amazing game " << userName << "!" <<
-            endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
+
+
+    cout << endl;
+    cout << "*\t" << "Thanks for playing this amazing game " << userName << "!" << endl;
+    cout << " ______________________________________________________________ " << endl;
     cout << endl;
     cout << endl;
+
     cout << "___________________________________ " << endl;
-    cout << " SUMMARY REPORT "                     << endl;
+    cout << "         SUMMARY REPORT             " << endl;
     cout << "___________________________________ " << endl;
-    cout << "LEVEL QUESTION ATTEMPTS "             << endl;
+    cout << "LEVEL      QUESTION       ATTEMPTS  " << endl;
     cout << "_____ __________________ __________ " << endl;
     cout << endl;
+
     totalCorrect = 0; //set to zero because they were used above, reset because they are being used in summary report
     totalIncorrect = 0;
     // extracts values from vectors
@@ -279,20 +268,19 @@ int main() {
     cout << endl;
     cout << "* Total Questions: " << setw(3) << right << questions.size() << endl;
     cout << "* Total Correct..: " << setw(3) << right << totalCorrect << endl;
-    cout << "* Total Incorrect: " << setw(3) << right << totalIncorrect << endl;
-    cout << "* Average........: " << setw(3) << right << (totalCorrect * 100) /
-            questions.size() << "%" << endl;
+    cout << "* Total Incorrect: "<< setw(3) << right << totalIncorrect << endl;
+    cout << "* Average........: " << setw(3) << right << (totalCorrect * 100) / questions.size() << "%" << endl;
     cout << "___________________________________ " << endl;
+
+
     // Displaying to the User that the Program is Finished and that it will be back.
     cout << endl;
     cout << "*\tThis is all the program does now." << endl;
     cout << "*\tCheck back soon for the next version." << endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
+    cout << " ______________________________________________________________ " << endl;
     cout << endl;
-    cout << "| Goodbye! |" <<
-            endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
+    cout << "|                           Goodbye!                           |" << endl;
+    cout << " ______________________________________________________________ " << endl;
+
     return 0;
 }

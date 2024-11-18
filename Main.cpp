@@ -82,8 +82,62 @@ string GetUserName(string userName) {
 int GetNumericValue() {
 
 }; //
-string AskToPlayAgain(string userName); //
-void DisplaySummaryReport(const vector<vector<int>> &allQuestions); //
+string AskToPlayAgain(string userName) {
+
+}; //
+void DisplaySummaryReport(const vector<vector<int>> &allQuestions) {
+        cout << "*\t" << "Thanks for playing this amazing game " << userName << "!" <<
+            endl;
+    cout << " ______________________________________________________________ " <<
+            endl;
+    cout << endl;
+    cout << endl;
+    cout << "___________________________________ " << endl;
+    cout << " SUMMARY REPORT "                     << endl;
+    cout << "___________________________________ " << endl;
+    cout << "LEVEL QUESTION ATTEMPTS "             << endl;
+    cout << "_____ __________________ __________ " << endl;
+    cout << endl;
+    totalCorrect = 0; //set to zero because they were used above, reset because they are being used in summary report
+    totalIncorrect = 0;
+    // extracts values from vectors
+    for (int i = 0; i < questions.size(); i++) {
+
+        // displays question details mathlevel, leftNum, symbol, rightNum, =, correctAnswer, then attempts per question
+        cout << setw(3) << right << mathLevel << " "
+                << setw(3) << right << leftNum
+                << " " << symbol << " "
+                << setw(3) << left << rightNum << " = "
+                << setw(3) << right << correctAnswer;
+        // Displays the number of attempts or Incorrect
+        if (Attempts != 0) {
+            cout << right << " " << Attempts << endl;
+            totalCorrect++;
+        } else {
+            cout << " " << "Incorrect" << endl;
+            totalIncorrect++;
+        }
+    }
+    // Displays the Summary Totals
+    cout << endl;
+    cout << "* Total Questions: " << setw(3) << right << questions.size() << endl;
+    cout << "* Total Correct..: " << setw(3) << right << totalCorrect << endl;
+    cout << "* Total Incorrect: " << setw(3) << right << totalIncorrect << endl;
+    cout << "* Average........: " << setw(3) << right << (totalCorrect * 100) /
+            questions.size() << "%" << endl;
+    cout << "___________________________________ " << endl;
+    // Displaying to the User that the Program is Finished and that it will be back.
+    cout << endl;
+    cout << "*\tThis is all the program does now." << endl;
+    cout << "*\tCheck back soon for the next version." << endl;
+    cout << " ______________________________________________________________ " <<
+            endl;
+    cout << endl;
+    cout << "| Goodbye! |" <<
+            endl;
+    cout << " ______________________________________________________________ " <<
+            endl;
+}; //
 vector<int> GenerateRandomQuestion(int mathLevel) {
     enum MathType { MT_ADD = 1, MT_SUB = 2, MT_MUL = 3, MT_DIV = 4 }; // Shows different math types
     MathType questionType;
@@ -91,6 +145,8 @@ vector<int> GenerateRandomQuestion(int mathLevel) {
     int rightNum = 0; // Generate random numbers between 1 and 10
     char symbol = '?'; // Gets characters
     int correctAnswer = 0; // Used for the correct answer
+    int currentRange = 0;
+    int tempNum = 0;
     // This generates a random number between 1 through 10.
     leftNum = (rand() % currentRange) + 1;
     rightNum = (rand() % currentRange) + 1;
@@ -100,32 +156,32 @@ vector<int> GenerateRandomQuestion(int mathLevel) {
     switch (questionType) {
         case MT_ADD: // used for addition
             symbol = '+';
-        correctAnswer = leftNum + rightNum;
+            correctAnswer = leftNum + rightNum;
         break;
         case MT_SUB: // used for subtraction
             symbol = '-';
-        if (leftNum < rightNum) {
-            tempNum = leftNum;
-            leftNum = rightNum;
-            rightNum = tempNum;
-        }
-        correctAnswer = leftNum - rightNum;
-        break;
+            if (leftNum < rightNum) {
+                tempNum = leftNum;
+                leftNum = rightNum;
+                rightNum = tempNum;
+            }
+            correctAnswer = leftNum - rightNum;
+            break;
         case MT_MUL: // used for multiplication
             symbol = '*';
-        correctAnswer = leftNum * rightNum;
+            correctAnswer = leftNum * rightNum;
         break;
         case MT_DIV: // used for division
             symbol = '/';
-        correctAnswer = leftNum;
-        leftNum *= rightNum;
+            correctAnswer = leftNum;
+            leftNum *= rightNum;
         break;
         // This shows that the code is broken, it displays a message.
         default:
             cout << "Error, Invalid Math Type " << "(mathType)" << "." << endl;
-        cout << "error -1" << endl;
-        cout << "Contact clayrasmussen425@gmail.com" << endl;
-        return -1;
+            cout << "error -1" << endl;
+            cout << "Contact clayrasmussen425@gmail.com" << endl;
+            return -1;
     }
 }; //
 bool GiveThreeAttempts(string userName, vector <int> &currentQuestion) {
@@ -243,56 +299,6 @@ int main() {
             cout
     <<
     endl;
-    cout << "*\t" << "Thanks for playing this amazing game " << userName << "!" <<
-            endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
-    cout << endl;
-    cout << endl;
-    cout << "___________________________________ " << endl;
-    cout << " SUMMARY REPORT "                     << endl;
-    cout << "___________________________________ " << endl;
-    cout << "LEVEL QUESTION ATTEMPTS "             << endl;
-    cout << "_____ __________________ __________ " << endl;
-    cout << endl;
-    totalCorrect = 0; //set to zero because they were used above, reset because they are being used in summary report
-    totalIncorrect = 0;
-    // extracts values from vectors
-    for (int i = 0; i < questions.size(); i++) {
 
-        // displays question details mathlevel, leftNum, symbol, rightNum, =, correctAnswer, then attempts per question
-        cout << setw(3) << right << mathLevel << " "
-                << setw(3) << right << leftNum
-                << " " << symbol << " "
-                << setw(3) << left << rightNum << " = "
-                << setw(3) << right << correctAnswer;
-        // Displays the number of attempts or Incorrect
-        if (Attempts != 0) {
-            cout << right << " " << Attempts << endl;
-            totalCorrect++;
-        } else {
-            cout << " " << "Incorrect" << endl;
-            totalIncorrect++;
-        }
-    }
-    // Displays the Summary Totals
-    cout << endl;
-    cout << "* Total Questions: " << setw(3) << right << questions.size() << endl;
-    cout << "* Total Correct..: " << setw(3) << right << totalCorrect << endl;
-    cout << "* Total Incorrect: " << setw(3) << right << totalIncorrect << endl;
-    cout << "* Average........: " << setw(3) << right << (totalCorrect * 100) /
-            questions.size() << "%" << endl;
-    cout << "___________________________________ " << endl;
-    // Displaying to the User that the Program is Finished and that it will be back.
-    cout << endl;
-    cout << "*\tThis is all the program does now." << endl;
-    cout << "*\tCheck back soon for the next version." << endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
-    cout << endl;
-    cout << "| Goodbye! |" <<
-            endl;
-    cout << " ______________________________________________________________ " <<
-            endl;
     return 0;
 }

@@ -27,7 +27,6 @@ it teaches us how to clean codes so that it's not overly too complicated to look
 ***************************************************************************/
 
 #include "MathTutor.h"
-
 using namespace std;
 
 int main() {

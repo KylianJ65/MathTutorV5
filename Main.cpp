@@ -20,7 +20,10 @@ practice your knowledge on math while having fun. Throughout the program the
 information such as the left number, math symbol, right number, answer, and
 attempts is stored in a 2D vector. This allows us to make a summary report
 at the end which the user can review to see what problems they had and how
-they did on the test. we did subdivide math tutor version 4 into several functions.
+they did on the test. To put it simply, Version 5 is an updated program of
+Version 4, in which we subdivided the 4th Version into several factors,
+so that the code looks more simple, neat, and appealing to the eye. In other words,
+it teaches us how to clean codes so that it's not overly too complicated to look at.
 ***************************************************************************/
 
 #include <iostream> // Needed for cin/cout, /t for tab spacing, and left and right alignment

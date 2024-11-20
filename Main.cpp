@@ -26,6 +26,7 @@ so that the code looks more simple, neat, and appealing to the eye. In other wor
 it teaches us how to clean codes so that it's not overly too complicated to look at.
 ***************************************************************************/
 
+#include "MathTutor.h"
 #include <iostream> // Needed for cin/cout, /t for tab spacing, and left and right alignment
 #include <string> // Needed for string variables - date types
 #include <cstdlib> // Needed for random numbers

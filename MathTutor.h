@@ -10,6 +10,8 @@ using namespace std;
 #ifndef MATHTUTOR_H
 #define MATHTUTOR_H
 
+const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
+const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
 
 // Function Prototypes
 void DisplayGameIntro();

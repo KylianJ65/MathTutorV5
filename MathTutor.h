@@ -1,4 +1,4 @@
-// This is the header file for the Math Tuor version 5 project
+// This is the header file for the Math Tutor version 5 project
 #ifndef MATHTUTOR_H
 #define MATHTUTOR_H
 

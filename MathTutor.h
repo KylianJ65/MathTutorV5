@@ -1,17 +1,17 @@
-//
-// Created by james on 11/19/2024.
-//
+// This is the header file for the Math Tuor version 5 project
+#ifndef MATHTUTOR_H
+#define MATHTUTOR_H
 
 #include <iostream>
 #include <vector>
 #include <string>
+#include <ctime> // Needed for system time
+
+
 
 using namespace std;
-#ifndef MATHTUTOR_H
-#define MATHTUTOR_H
 
-const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
-const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
+
 
 // Function Prototypes
 void DisplayGameIntro();
@@ -23,4 +23,5 @@ vector<int> GenerateRandomQuestion(int mathLevel, int currentRange);
 bool GiveThreeAttempts(string userName, vector<int> &currentQuestion, int &totalCorrect, int &totalIncorrect);
 void CheckForLevelChange(int &totalCorrect, int &totalIncorrect, int &mathLevel, int &currentRange);
 
+#include "MathTutor.cpp"
 #endif //MATHTUTOR_H

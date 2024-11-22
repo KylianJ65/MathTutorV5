@@ -27,6 +27,12 @@ it teaches us how to clean codes so that it's not overly too complicated to look
 ***************************************************************************/
 
 #include "MathTutor.h"
+#include <iostream> // Needed for cin/cout, /t for tab spacing, and left and right alignment
+#include <string> // Needed for string variables - date types
+#include <cstdlib> // Needed for random numbers
+#include <limits> // Used for limits library
+#include <vector> // used so we can make our 2D Vector
+#include <iomanip> //for the setw
 using namespace std;
 
 int main() {

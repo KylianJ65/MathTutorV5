@@ -1,14 +1,15 @@
-#include "MathTutor.h"
 #include <iostream> // Needed for cin/cout, /t for tab spacing, and left and right alignment
 #include <string> // Needed for string variables - date types
 #include <cstdlib> // Needed for random numbers
-#include <ctime> // Needed for system time
 #include <limits> // Used for limits library
 #include <vector> // used so we can make our 2D Vector
 #include <iomanip> //for the setw
 
 using namespace std; // used to not put "std" in cin/cout
 
+
+const int LEVEL_RANGE_CHANGE = 10; // Changes the range of questions
+const int MAX_ATTEMPTS = 3; // Giving the user the amount of max attempts
 
 //Defining the functions and
 void DisplayGameIntro() {
